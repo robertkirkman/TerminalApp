@@ -24,3 +24,5 @@ ttyd --writable login
 ```
 
 3. Install TerminalApp and open it
+
+<img height="1000" alt="Screenshot_20251207-135733_Terminal" src="https://github.com/user-attachments/assets/15c13873-dfba-43a4-a014-aa67f6370789" />
