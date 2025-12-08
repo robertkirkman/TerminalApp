@@ -31,16 +31,14 @@ class SettingsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         val settingsItems = mutableListOf<SettingsItem>()
 
-        if (GraphicsManager.getInstance(this).availableAccelerationTypes.size > 1) {
-            settingsItems.add(
-                SettingsItem(
-                    resources.getString(R.string.settings_graphics_acceleration_title),
-                    resources.getString(R.string.settings_graphics_acceleration_subtitle),
-                    R.drawable.ic_display,
-                    SettingsItemEnum.GraphicAcceleration,
-                )
+        settingsItems.add(
+            SettingsItem(
+                resources.getString(R.string.settings_webview_url_title),
+                resources.getString(R.string.settings_webview_url_subtitle),
+                R.drawable.ic_display,
+                SettingsItemEnum.WebViewSettingsItem,
             )
-        }
+        )
 
         val settingsListItemAdapter = SettingsItemAdapter(settingsItems)
 

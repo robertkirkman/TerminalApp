@@ -68,6 +68,7 @@ class TerminalTabFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val webViewManager = WebViewManager.getInstance(view.context)
         terminalView = view.findViewById(R.id.webview)
         bootProgressView = view.findViewById(R.id.boot_progress)
         initializeWebView()
@@ -78,7 +79,7 @@ class TerminalTabFragment() : Fragment() {
         if (savedInstanceState != null) {
             terminalView.restoreState(savedInstanceState)
         } else {
-            loadUrl("http://127.0.0.1:7681")
+            loadUrl(webViewManager.webViewUrl)
         }
     }
 

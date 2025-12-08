@@ -33,6 +33,7 @@ import android.webkit.WebView
 import com.android.webview.terminal.MainActivity.Companion.TAG
 import java.io.IOException
 
+
 class TerminalView(context: Context, attrs: AttributeSet?) :
     WebView(context, attrs),
     AccessibilityManager.AccessibilityStateChangeListener,
@@ -53,7 +54,7 @@ class TerminalView(context: Context, attrs: AttributeSet?) :
 
     @Throws(IOException::class)
     private fun readAssetAsString(context: Context, filePath: String): String {
-        return String(context.assets.open(filePath).readAllBytes())
+        return String(context.assets.open(filePath).readBytes())
     }
 
     fun mapTouchToMouseEvent() {

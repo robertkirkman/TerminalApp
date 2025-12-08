@@ -16,7 +16,7 @@
 package com.android.webview.terminal
 
 enum class SettingsItemEnum {
-    GraphicAcceleration,
+    WebViewSettingsItem,
 }
 
 class SettingsItem(

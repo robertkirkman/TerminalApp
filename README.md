@@ -6,7 +6,7 @@ It is designed for use as a frontend for the `ttyd` package of the [Termux Nativ
 
 ### System Requirements
 
-- Android 13 or newer
+- Android 9 or newer
 - Any ROM vendor
 - Any hardware
 - Android Virtualization Framework not required

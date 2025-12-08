@@ -16,9 +16,11 @@
 package com.android.webview.terminal
 
 import android.app.AlertDialog
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -49,27 +51,22 @@ class SettingsItemAdapter(private val dataSet: List<SettingsItem>) :
 
         viewHolder.card.setOnClickListener { view ->
             val type = dataSet[position].settingsItemEnum
-            if (type == SettingsItemEnum.GraphicAcceleration) {
-                val graphicsManager = GraphicsManager.getInstance(view.context)
-                val currentType = graphicsManager.accelerationType
-                val availableOptions = graphicsManager.availableAccelerationTypes
-                var originalSelection = availableOptions.indexOf(currentType)
-
-                if (originalSelection == -1) {
-                    originalSelection = 0
-                }
-
+            if (type == SettingsItemEnum.WebViewSettingsItem) {
+                val webViewManager = WebViewManager.getInstance(view.context)
+                val currentUrl = webViewManager.webViewUrl
+                val originalSelection = currentUrl
                 var newSelection = originalSelection
 
-                AlertDialog.Builder(view.context)
-                    .setTitle(R.string.settings_graphics_acceleration_title)
-                    .setPositiveButton(android.R.string.ok) { dialog, which ->
-                        if (newSelection != -1) {
-                            val selectedType = availableOptions[newSelection]
-                            graphicsManager.accelerationType = selectedType
-                        }
+                val inputUrl = EditText(view.context)
+                inputUrl.inputType = InputType.TYPE_CLASS_TEXT
+                inputUrl.setText(currentUrl)
 
+                AlertDialog.Builder(view.context)
+                    .setTitle(R.string.settings_webview_url_title)
+                    .setPositiveButton(android.R.string.ok) { dialog, which ->
+                        newSelection = inputUrl.text.toString()
                         if (originalSelection != newSelection) {
+                            webViewManager.webViewUrl = newSelection
                             Toast.makeText(
                                     view.context,
                                     R.string.settings_graphics_acceleration_toast_reboot_required,
@@ -81,14 +78,7 @@ class SettingsItemAdapter(private val dataSet: List<SettingsItem>) :
                     .setNegativeButton(android.R.string.cancel) { dialog, which ->
                         dialog.dismiss()
                     }
-                    .setSingleChoiceItems(
-                        availableOptions
-                            .map { view.context.getString(it.descriptionId) }
-                            .toTypedArray(),
-                        originalSelection,
-                    ) { dialog, which ->
-                        newSelection = which
-                    }
+                    .setView(inputUrl)
                     .create()
                     .show()
                 return@setOnClickListener

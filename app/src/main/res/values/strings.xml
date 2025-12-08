@@ -201,9 +201,9 @@
     <string name="tab_default_title">Tab</string>
 
     <!-- Settings menu title for selecting the graphics acceleration type [CHAR LIMIT=none] -->
-    <string name="settings_graphics_acceleration_title">Graphics Acceleration</string>
+    <string name="settings_webview_url_title">WebView URL</string>
     <!-- Settings menu sub title for selecting the graphics acceleration type [CHAR LIMIT=none] -->
-    <string name="settings_graphics_acceleration_subtitle">Change the renderer for graphics acceleration.</string>
+    <string name="settings_webview_url_subtitle">Change the URL of the ttyd server to connect to.</string>
     <!-- Toast after selecting the graphics acceleration type [CHAR LIMIT=none] -->
     <string name="settings_graphics_acceleration_toast_reboot_required">Please restart Terminal app to apply the change.</string>
     <!-- Software-based renderer [CHAR LIMIT=none] -->

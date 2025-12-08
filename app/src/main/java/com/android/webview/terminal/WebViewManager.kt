@@ -19,52 +19,34 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 
-class GraphicsManager
-private constructor(context: Context, private val sharedPref: SharedPreferences) {
-    val isGfxstreamSupported = context.resources.getBoolean(R.bool.gfxstream_supported)
-    val availableAccelerationTypes = run {
-        if (isGfxstreamSupported) {
-            AccelerationType.entries.toList()
-        } else {
-            AccelerationType.entries.filter {
-                it != AccelerationType.Gfxstream
-            }
-        }
-    }
-
+class WebViewManager
+private constructor(private val sharedPref: SharedPreferences) {
     private val lock = Any()
 
-    enum class AccelerationType(val descriptionId: Int) {
-        Lavapipe(R.string.settings_graphics_acceleration_software_renderer),
-        Gfxstream(R.string.settings_graphics_acceleration_hardware_renderer),
-    }
-
-    var accelerationType: AccelerationType
+    var webViewUrl: String
         get() =
             synchronized(lock) {
-                val typeName = sharedPref.getString(ACCELERATION_TYPE_KEY, null)
-                val defaultOption =
-                    if (isGfxstreamSupported) AccelerationType.Gfxstream
-                    else AccelerationType.Lavapipe
+                val url = sharedPref.getString(URL_KEY, null)
+                val defaultOption = "http://127.0.0.1:7681"
                 return try {
-                    if (typeName != null) AccelerationType.valueOf(typeName) else defaultOption
+                    url ?: defaultOption
                 } catch (_: IllegalArgumentException) {
                     defaultOption
                 }
             }
         set(value) =
             synchronized(lock) {
-                sharedPref.edit { putString(ACCELERATION_TYPE_KEY, value.name) }
+                sharedPref.edit { putString(URL_KEY, value) }
             }
 
     companion object {
-        private const val PREFS_NAME = ".GRAPHICS"
-        private const val ACCELERATION_TYPE_KEY = "acceleration_type"
+        private const val PREFS_NAME = ".WEBVIEW"
+        private const val URL_KEY = "url"
 
-        @Volatile private var instance: GraphicsManager? = null
+        @Volatile private var instance: WebViewManager? = null
 
         @Synchronized
-        fun getInstance(context: Context): GraphicsManager {
+        fun getInstance(context: Context): WebViewManager {
             // Use double-checked locking for thread safety.
             return instance
                 ?: synchronized(this) {
@@ -75,7 +57,7 @@ private constructor(context: Context, private val sharedPref: SharedPreferences)
                                     context.packageName + PREFS_NAME,
                                     Context.MODE_PRIVATE,
                                 )
-                            GraphicsManager(context, sharedPref).also { instance = it }
+                            WebViewManager(sharedPref).also { instance = it }
                         }
                 }
         }
