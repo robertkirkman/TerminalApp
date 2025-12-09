@@ -20,7 +20,12 @@ It is designed for use as a frontend for the `ttyd` package of the [Termux Nativ
 ```bash
 pkg upgrade
 pkg install ttyd
-ttyd --writable login
+ttyd --writable \
+    --interface 127.0.0.1 \
+    --ping-interval 50 \
+    --client-option 'scrollback=10000' \
+    --client-option 'enableSixel=true' \
+    login
 ```
 
 3. Install TerminalApp and open it
